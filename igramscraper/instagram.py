@@ -145,6 +145,11 @@ class Instagram:
 
         self.login(username, password)
 
+    def _update_cookie(self, cookie):
+        self.cookie.update(
+            {key: value.value for key, value in cookie.items()}
+        )
+
     async def __request_get(self, *args, **kwargs) -> dict:
         logger.info('Instagram request: %s %s', args, kwargs)
         async with self.__areq.get(*args, **kwargs,
@@ -153,9 +158,9 @@ class Instagram:
             if 'accounts/login' in response.url.path:
                 raise LoginRedirectError()
             if response.status != 200:
-                raise InstagramException.default(response.text,
+                raise InstagramException.default(await response.text(),
                                                  response.status)
-            self.cookie.update(response.cookies)
+            self._update_cookie(response.cookies)
             return await response.json()
 
     def set_proxies(self, proxy):
@@ -957,10 +962,11 @@ class Instagram:
         variables = {
             'id': str(account_id),
             'first': str(count),
-            'after': end_cursor
+            'after': end_cursor,
         }
         response = await self.__request_get(endpoints.get_followers_json_link(variables))
         edges = response['data']['user']['edge_followed_by']
+        print(account_id, count, edges['page_info']['end_cursor'])
         return {
             'items': list(map(lambda edge: edge['node'], edges['edges'])),
             'count': edges['count'],
