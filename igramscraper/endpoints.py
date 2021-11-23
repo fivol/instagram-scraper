@@ -57,8 +57,10 @@ def get_account_json_private_info_link_by_account_id(account_id):
 def get_account_medias_json_link(variables):
     return ACCOUNT_MEDIAS % urllib.parse.quote_plus(json.dumps(variables, separators=(',', ':')))
 
+
 def get_account_tagged_medias_json_link(variables):
     return ACCOUNT_TAGGED_MEDIAS % urllib.parse.quote_plus(json.dumps(variables, separators=(',', ':')))
+
 
 def get_media_page_link(code):
     return MEDIA_LINK % urllib.parse.quote_plus(code)
@@ -69,7 +71,8 @@ def get_media_json_link(code):
 
 
 def get_medias_json_by_location_id_link(facebook_location_id, max_id=''):
-    return MEDIA_JSON_BY_LOCATION_ID % (urllib.parse.quote_plus(str(facebook_location_id)), urllib.parse.quote_plus(max_id))
+    return MEDIA_JSON_BY_LOCATION_ID % (
+    urllib.parse.quote_plus(str(facebook_location_id)), urllib.parse.quote_plus(max_id))
 
 
 def get_medias_json_by_tag_link(tag, max_id=''):
@@ -85,7 +88,8 @@ def get_comments_before_comments_id_by_code(variables):
 
 
 def get_last_likes_by_code_old(code, count, last_like_id):
-    return LIKES_BY_SHORTCODE_OLD % (urllib.parse.quote_plus(code), urllib.parse.quote_plus(str(count)), urllib.parse.quote_plus(str(last_like_id)))
+    return LIKES_BY_SHORTCODE_OLD % (
+    urllib.parse.quote_plus(code), urllib.parse.quote_plus(str(count)), urllib.parse.quote_plus(str(last_like_id)))
 
 
 def get_last_likes_by_code(variables):
@@ -120,6 +124,7 @@ def get_followers_json_link_old(account_id, count, after=''):
 
     return url
 
+
 def get_followers_json_link(variables):
     return FOLLOWERS_URL % urllib.parse.quote_plus(json.dumps(variables, separators=(',', ':')))
 
@@ -136,8 +141,10 @@ def get_following_json_link_old(account_id, count, after=''):
 
     return url
 
+
 def get_following_json_link(variables):
     return FOLLOWING_URL % urllib.parse.quote_plus(json.dumps(variables, separators=(',', ':')))
+
 
 def get_user_stories_link():
     return get_graph_ql_url(USER_STORIES, {'variables': json.dumps([], separators=(',', ':'))})
@@ -171,4 +178,3 @@ def get_add_comment_url(media_id):
 
 def get_delete_comment_url(media_id, comment_id):
     return DELETE_COMMENT_URL % (urllib.parse.quote_plus(str(media_id)), urllib.parse.quote_plus(str(comment_id)))
-
